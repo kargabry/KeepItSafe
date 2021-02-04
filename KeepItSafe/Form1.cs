@@ -13,9 +13,8 @@ namespace KeepItSafe
 {
     public partial class Form1 : Form
     {
-        private string folderDir;
+        private string folderPath;
         private string message;
-        private string pass;
         public Form1()
         {
             InitializeComponent();
@@ -26,22 +25,43 @@ namespace KeepItSafe
             FolderBrowserDialog FBD = new FolderBrowserDialog();
             if(FBD.ShowDialog() == DialogResult.OK)
             {
-                this.folderDir = FBD.SelectedPath;
+                this.folderPath = FBD.SelectedPath;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.message = "You did not enter ";
-            this.pass = passBox.Text;
-
-            if (Files.checkInputInfo() == true)
+            if (checkIputInfo(folderPath, passBox.Text, out message) == false)
             {
                 MessageBox.Show(message, "Missing information");
                 return;
             }
 
-            Files.Encrypt(folderDir, pass);
+            Files.Encrypt(folderPath, passBox.Text);
+        }
+
+        private bool checkIputInfo(string folderPath, string pass, out string message)
+        {
+            bool check = true;
+            message = "You did not enter ";
+
+            if(folderPath == null && pass.Length < 1)
+            {
+                message += "folder path and password.";
+                check = false;
+            }
+            else if (folderPath == null)
+            {
+                message += "folder path.";
+                check = false;
+            }
+            else if (pass.Length < 1)
+            {
+                message += "password.";
+                check = false;
+            }
+            
+            return check;
         }
     }
 }

@@ -13,38 +13,13 @@ namespace KeepItSafe
         public static void Encrypt(string folderPath, string pass)
         {
             string[] files = Directory.GetFiles(folderPath);
-            SecureFile sf = new SecureFile();
+            Files fs = new Files();
             GCHandle gch = GCHandle.Alloc(pass, GCHandleType.Pinned);
 
             foreach (string file in files)
             {
-                sf.FileEncrypt(file, pass);
-                
+                fs.FileEncrypt(file, pass);
             }
-        }
-
-        public bool checkInputInfo()
-        {
-
-            bool missingInfo = false;
-
-            if (folderDir == null && pass == "")
-            {
-                this.message += "folder path and password.";
-                missingInfo = true;
-            }
-            else if (folderDir == null)
-            {
-                this.message += "folder path.";
-                missingInfo = true;
-            }
-            else if (pass == "")
-            {
-                this.message += "folder password.";
-                missingInfo = true;
-            }
-
-            return missingInfo;
         }
     }
 }

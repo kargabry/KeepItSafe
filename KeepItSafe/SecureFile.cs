@@ -12,7 +12,7 @@ namespace KeepItSafe
 {
     public class SecureFile
     {
-        [DllImport("KERNERL32.DLL", EntryPoint = "RtlZeroMemory")]
+        [DllImport("KERNEL32.DLL", EntryPoint = "RtlZeroMemory")]
         public static extern bool ZeroMemory(IntPtr Destination, int Length);
 
         public static byte[] GenerateRandomSalt()
