@@ -10,15 +10,30 @@ namespace KeepItSafe
 {
     public class Files : SecureFile
     {
-        public static void Encrypt(string folderPath, string pass)
+        private string[] files;
+        Files fs = new Files();
+
+        private void openFolder(string folderPath)
         {
-            string[] files = Directory.GetFiles(folderPath);
-            Files fs = new Files();
+            this.files = Directory.GetFiles(folderPath);
+        }
+        public void Encrypt(string folderPath, string pass)
+        {
+            this.openFolder(folderPath);
             GCHandle gch = GCHandle.Alloc(pass, GCHandleType.Pinned);
 
-            foreach (string file in files)
+            foreach (string file in this.files)
             {
                 fs.FileEncrypt(file, pass);
+            }
+        }
+
+        public void Decrypt(string folderPath, string outputFile, string pass)
+        {
+            this.openFolder(folderPath);
+            foreach (string file in this.files)
+            {
+                fs.FileDecrypt(file, outputFile, pass);
             }
         }
     }

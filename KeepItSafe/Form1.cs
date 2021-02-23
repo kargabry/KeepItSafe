@@ -15,6 +15,7 @@ namespace KeepItSafe
     {
         private string folderPath;
         private string message;
+        Files files = new Files();
         public Form1()
         {
             InitializeComponent();
@@ -37,7 +38,7 @@ namespace KeepItSafe
                 return;
             }
 
-            Files.Encrypt(folderPath, passBox.Text);
+            files.Encrypt(folderPath, passBox.Text);
         }
 
         private bool checkIputInfo(string folderPath, string pass, out string message)
@@ -62,6 +63,17 @@ namespace KeepItSafe
             }
             
             return check;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (checkIputInfo(folderPath, passBox.Text, out message) == false)
+            {
+                MessageBox.Show(message, "Missing information");
+                return;
+            }
+
+            files.Decrypt(folderPath, folderPath, passBox.Text);
         }
     }
 }
